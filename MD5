@@ -1,0 +1,17 @@
+17997f42cf07c378bef09ad2ce004330 *DESCRIPTION
+4526528f34b85dfa1be30be59d4586b7 *LICENSE
+2a9d9e1081f670374b640d32e01d75f5 *NAMESPACE
+63c175ea5af37fdcab7c2c5aeec10083 *R/iri.R
+c925d50df9851925c78506feae49108f *R/rroad-package.R
+9d2c2ccc7df099f252b7237804e53024 *build/vignette.rds
+626134326275591257e41406b8c65b78 *inst/doc/RoadFeatures.R
+843080db7abdfcac999f3a427a8be098 *inst/doc/RoadFeatures.Rmd
+a92c643d1bf5d66d3f36be51f950048b *inst/doc/RoadFeatures.html
+d808f6dcac7beee41287e88343bdecad *man/CalculateIRIContinuously.Rd
+107c35be90b9aa31490489c94cf57552 *man/CalculateIRIperSegments.Rd
+d036cdcdca57a8145dc645997b7c628a *man/CalculateIRIperSegmentsOverlapping.Rd
+3a5cafccccfe59ec01827833dccf6635 *man/IRI_COEF_100.Rd
+af4c8327b4a2435f2c8981136ad30409 *man/IRI_COEF_250.Rd
+5e2732580514e36ed4aae64faa342abe *tests/testthat.R
+e9b00e6e8a63dc22090ba7d77bcba91b *tests/testthat/test-iri.R
+843080db7abdfcac999f3a427a8be098 *vignettes/RoadFeatures.Rmd
