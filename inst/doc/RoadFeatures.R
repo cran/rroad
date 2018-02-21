@@ -6,9 +6,25 @@ knitr::opts_chunk$set(
 #  fig.path = "webimg/",
   dev = "png")
 
-library(dplyr)
-library(zoo)
-library(biwavelet)
+## ---- include=FALSE------------------------------------------------------
+if (requireNamespace("zoo", quietly = TRUE) &&
+    requireNamespace("biwavelet", quietly = TRUE)
+    ) {
+  library("zoo")
+  library("biwavelet")
+} else {
+  knitr::knit_exit("
+    Suggested packages not installed: biwavelet, zoo, dplyr
+
+    Try installing from CRAN:
+      install.packages('zoo')
+      install.packages('biwavelet')
+
+    Alternatively try installing 'biwavelet' from github:
+      install.packages('devtools')
+      devtools::install_github('tgouhier/biwavelet')
+  ")
+}
 
 ## ------------------------------------------------------------------------
 road_len_m <- 1000          # road length
@@ -17,13 +33,12 @@ sample_rate_hz <- 200       # sampling rate of the 3D accelerometer
 speed_ms <- speed_kmh / 3.6 # car speed in m/s
 sample_len <- round(speed_ms / sample_rate_hz, digits = 2) # sample size
 num_samples <- round(road_len_m / sample_len) # how many samples we collected
-GRAVITY_ACCEL <- 9.80665 # ms^-2
+GRAVITY_ACCEL <- 9.80665    # ms^-2
 
 print(sample_len)
 print(num_samples)
 
 ## ----cache=TRUE----------------------------------------------------------
-
 # random signal with simulated gravity
 random_accz <- (rnorm(num_samples) - GRAVITY_ACCEL)
 
@@ -36,7 +51,7 @@ signal <- data.frame(
   dist_meters = seq(from = 0, to = road_len_m, by = sample_len),
   accZ = random_accz * random_gaps
 )
-signal$accZ %>% head(num_samples) -> signal$accZ_orig
+head(signal$accZ, num_samples) -> signal$accZ_orig
 
 plot(signal$dist_meters, signal$accZ, type = "o", pch = "+", cex = .5,
      main = "Accelerometer signal (original)",
@@ -47,10 +62,10 @@ plot(signal$dist_meters, signal$accZ, type = "o", pch = "+", cex = .5,
 (signal$accZ_orig - GRAVITY_ACCEL) -> signal$accZ_nogravity
 
 # z-score normalization (subtracting mean and dividing by sd)
-signal$accZ_orig %>% scale -> signal$accZ
+scale(signal$accZ_orig) -> signal$accZ
 
 # removing leading and trailing NAs in the whole matrix
-signal %>% na.trim -> signal
+na.trim(signal) -> signal
 
 plot(signal$dist_meters, signal$accZ, type = "o", pch = "+", cex = .5,
      main = "Accelerometer signal (z-score normalized)",
@@ -58,15 +73,15 @@ plot(signal$dist_meters, signal$accZ, type = "o", pch = "+", cex = .5,
      ylab = expression( paste("Z-acceleration [", m * s ^ -2, "]") ))
 
 ## ------------------------------------------------------------------------
-signal %>% head(500) -> signal_head
+head(signal, 500) -> signal_head
 plot(signal_head$dist_meters, signal_head$accZ,
-     type = "o", xlab = NA, ylab = NA, pch = "+", cex = .5,
-     main = paste("First", nrow(signal_head), "samples with gaps"))
+    type = "o", xlab = NA, ylab = NA, pch = "+", cex = .5,
+    main = paste("First", nrow(signal_head), "samples with gaps"))
 
 ## ------------------------------------------------------------------------
-signal$accZ %>% na.approx(na.rm = FALSE) -> signal$accZ_approx
+na.approx(signal$accZ, na.rm = FALSE) -> signal$accZ_approx
 
-signal %>% head(500) -> signal_head
+head(signal, 500) -> signal_head
 plot(signal_head$dist_meters, signal_head$accZ,
      type = "p", pch = "+", cex = .5, xlab = NA, ylab = NA,
      main = paste("First", nrow(signal_head), "samples interpolated"))
@@ -89,19 +104,19 @@ lines(signal$cwt_mid, col = "blue", lw = 4)
 lines(signal$cwt_low, col = "red", lw = 4)
 
 ## ------------------------------------------------------------------------
-signal$accZ_approx %>% rollmean(k = 10, fill = NA) -> signal$rollmean10
-signal$accZ_approx %>% rollmean(k = 20, fill = NA) -> signal$rollmean20
+rollmean(signal$accZ_approx, k = 10, fill = NA) -> signal$rollmean10
+rollmean(signal$accZ_approx, k = 20, fill = NA) -> signal$rollmean20
 
 rms <- function(x) sqrt(mean(x^2)) # same as `rms` from `seewave` package
-signal$accZ_approx %>% rollapply(width = 20, fill = NA, FUN = rms ) -> signal$rms20
+rollapply(signal$accZ_approx, width = 20, fill = NA, FUN = rms ) -> signal$rms20
 
 ## ------------------------------------------------------------------------
-signal %>% head(3000) -> signal_head
+head(signal, 3000) -> signal_head
 
 plot(signal_head$dist_meters,
-     signal_head$accZ_approx,
-     type = "l", xlab = NA, ylab = NA,
-     main = paste("First", nrow(signal_head), "samples interpolated"))
+   signal_head$accZ_approx,
+   type = "l", xlab = NA, ylab = NA,
+   main = paste("First", nrow(signal_head), "samples interpolated"))
 
 lines(signal_head$dist_meters, signal_head$rollmean10, col = "red", lw = 3)
 lines(signal_head$dist_meters, signal_head$rollmean20, col = "blue", lw = 3)

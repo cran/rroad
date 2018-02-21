@@ -1,12 +1,12 @@
-17997f42cf07c378bef09ad2ce004330 *DESCRIPTION
+c9fd880d434d53e3a78e1c7a661da772 *DESCRIPTION
 4526528f34b85dfa1be30be59d4586b7 *LICENSE
 2a9d9e1081f670374b640d32e01d75f5 *NAMESPACE
 63c175ea5af37fdcab7c2c5aeec10083 *R/iri.R
 c925d50df9851925c78506feae49108f *R/rroad-package.R
-9d2c2ccc7df099f252b7237804e53024 *build/vignette.rds
-626134326275591257e41406b8c65b78 *inst/doc/RoadFeatures.R
-843080db7abdfcac999f3a427a8be098 *inst/doc/RoadFeatures.Rmd
-a92c643d1bf5d66d3f36be51f950048b *inst/doc/RoadFeatures.html
+ddd386c540db0cd757937ce4ac2314c0 *build/vignette.rds
+f7e79b578bb83b8ec5eedaf73cc3cefa *inst/doc/RoadFeatures.R
+d9c93fff127f0c7571240a071d67644c *inst/doc/RoadFeatures.Rmd
+bfe7e531e57d1534700f1a4453a91e67 *inst/doc/RoadFeatures.html
 d808f6dcac7beee41287e88343bdecad *man/CalculateIRIContinuously.Rd
 107c35be90b9aa31490489c94cf57552 *man/CalculateIRIperSegments.Rd
 d036cdcdca57a8145dc645997b7c628a *man/CalculateIRIperSegmentsOverlapping.Rd
@@ -14,4 +14,4 @@ d036cdcdca57a8145dc645997b7c628a *man/CalculateIRIperSegmentsOverlapping.Rd
 af4c8327b4a2435f2c8981136ad30409 *man/IRI_COEF_250.Rd
 5e2732580514e36ed4aae64faa342abe *tests/testthat.R
 e9b00e6e8a63dc22090ba7d77bcba91b *tests/testthat/test-iri.R
-843080db7abdfcac999f3a427a8be098 *vignettes/RoadFeatures.Rmd
+d9c93fff127f0c7571240a071d67644c *vignettes/RoadFeatures.Rmd
